@@ -20,19 +20,17 @@ import org.springframework.stereotype.Service;
 public class AppointmentsService {
 
     private final AppointmentDao appointmentDao;
+    private final AppointmentErrorService appointmentErrorService;
 
     @Autowired
-    public AppointmentsService(@Qualifier("inMemoryDao") AppointmentDao appointmentDao) {
+    public AppointmentsService(@Qualifier("inMemoryDao") AppointmentDao appointmentDao, AppointmentErrorService appointmentErrorService) {
         this.appointmentDao = appointmentDao;
+        this.appointmentErrorService = appointmentErrorService;
     }
 
-    public List<Appointment> getAllAppointments(){
-        return appointmentDao.getAllAppointments();
-    }
+    public List<Appointment> getValidAppointments() { return appointmentDao.getValidAppointments();}
+    public List<Appointment> getInvalidAppointments() {return appointmentDao.getInvalidAppointments();}
 
-    public Appointment createAppointment(Appointment appointment){
-        return appointmentDao.createAppointment(appointment);
-    }
 
     public void loadAllFromFile() {
         JSONParser parser = new JSONParser();
@@ -40,8 +38,8 @@ public class AppointmentsService {
             Object obj  = parser.parse(new FileReader("./data.json"));
             JSONArray jsonArray = (JSONArray) obj;
             for (int i = 0; i <jsonArray.size(); i++) {
-                JSONObject e = (JSONObject)jsonArray.get(i);
-                parseJSONAppointment(e);
+                JSONObject jsonAppointment = (JSONObject)jsonArray.get(i);
+                createAppointment(jsonAppointment);
             }
             System.out.println("Finished loading all appointments.");
         } catch (FileNotFoundException e) {
@@ -53,9 +51,19 @@ public class AppointmentsService {
         }
     }
 
-    public Appointment parseJSONAppointment(JSONObject appointment) throws JsonProcessingException {
+    public void createAppointment(JSONObject appointment) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         Appointment newAppointment = objectMapper.readValue(appointment.toString(), Appointment.class);
-        return createAppointment(newAppointment);
+        if (newAppointment.valid()){
+            appointmentDao.createAppointment(newAppointment);
+        } else {
+            appointmentErrorService.addAppointmentError(newAppointment);
+        }
     }
+
+
+
 }
+
+
+

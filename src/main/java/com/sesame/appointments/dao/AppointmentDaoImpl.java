@@ -9,11 +9,12 @@ import java.util.List;
 @Repository("inMemoryDao")
 public class AppointmentDaoImpl implements AppointmentDao{
 
-    private static List<Appointment> DB = new ArrayList<>();
+    private static List<Appointment> DBValidAppointments = new ArrayList<>();
+    private static List<Appointment> DBInvalidAppointments = new ArrayList<>();
 
     @Override
     public Appointment createAppointment(Appointment appointment) {
-        DB.add(new Appointment(
+        DBValidAppointments.add(new Appointment(
                 appointment.getDoctor(),
                 appointment.getDurationInMinutes(),
                 appointment.getTime(),
@@ -24,8 +25,13 @@ public class AppointmentDaoImpl implements AppointmentDao{
     }
 
     @Override
-    public List<Appointment> getAllAppointments() {
-        return DB;
+    public List<Appointment> getValidAppointments() {
+        return DBValidAppointments;
+    }
+
+    @Override
+    public List<Appointment> getInvalidAppointments() {
+        return DBInvalidAppointments;
     }
 
 }

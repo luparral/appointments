@@ -1,6 +1,8 @@
 package com.sesame.appointments.api;
 
+import com.sesame.appointments.model.AppointmentError;
 import com.sesame.appointments.model.DoctorAppointment;
+import com.sesame.appointments.service.AppointmentErrorService;
 import com.sesame.appointments.service.AppointmentsService;
 import com.sesame.appointments.service.DoctorAppointmentsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +19,19 @@ public class DoctorAppointmentsController {
     @Autowired
     private final DoctorAppointmentsService doctorAppointmentsService;
     private final AppointmentsService appointmentsService;
+    private final AppointmentErrorService appointmentErrorService;
 
-    public DoctorAppointmentsController(DoctorAppointmentsService doctorAppointmentsService, AppointmentsService appointmentsService) {
+    public DoctorAppointmentsController(DoctorAppointmentsService doctorAppointmentsService, AppointmentsService appointmentsService, AppointmentErrorService appointmentErrorService) {
         this.doctorAppointmentsService = doctorAppointmentsService;
         this.appointmentsService = appointmentsService;
+        this.appointmentErrorService = appointmentErrorService;
     }
 
     @GetMapping
-    public List<DoctorAppointment> getAll() {
+    public APIResponse getAll() {
         appointmentsService.loadAllFromFile(); // load all appointments in original format
-        return this.doctorAppointmentsService.getAllDoctorAppointments();
+        List <AppointmentError> appointmentErrors = this.appointmentErrorService.getAppointmentErrors(); // get the appointment errors that were stored in DB after loading and parsing the input.
+        List<DoctorAppointment> doctorAppointments = this.doctorAppointmentsService.getDoctorAppointments(); // Only took care of process valid appointments. It will ask for valid appointments to appointmentSerrvice
+        return new APIResponse(doctorAppointments, appointmentErrors);
     }
 }

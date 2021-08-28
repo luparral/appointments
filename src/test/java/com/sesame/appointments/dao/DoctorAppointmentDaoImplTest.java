@@ -1,20 +1,18 @@
 package com.sesame.appointments.dao;
 
 import com.sesame.appointments.model.*;
+import com.sesame.appointments.service.AppointmentErrorService;
 import com.sesame.appointments.service.AppointmentsService;
 import org.junit.jupiter.api.Test;
-
-import javax.print.Doc;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class DoctorAppointmentDaoImplTest {
 
     private final AppointmentDao appointmentDao = new AppointmentDaoImpl();
-    public final AppointmentsService appointmentsService = new AppointmentsService(appointmentDao);
+    private final AppointmentErrorDao appointmentErrorDao = new AppointmentErrorDaoImpl();
+    private final AppointmentErrorService appointmentErrorService = new AppointmentErrorService(appointmentErrorDao);
+    public final AppointmentsService appointmentsService = new AppointmentsService(appointmentDao, appointmentErrorService);
 
     MedicalService service1 = createMockService("Psychiatry", 50);
     MedicalService service2 = createMockService("Cardiology", 45);
@@ -25,24 +23,10 @@ class DoctorAppointmentDaoImplTest {
     ShortAppointment shortAppointment4 = createMockShortAppointment("1237", "2021-08-26 16:06:00", "PT30M", service2);
 
 
-    /*AppointmentByLocation appointmentByLocation1 = createMockAppointmentByLocation()
-    AppointmentByLocation appointmentByLocation2 =
-    AppointmentByLocation appointmentByLocation3 =
-*/
-
     @Test
     void testSelectAppointmentByLocationForLocation() {
-
+//
     }
-
-
-/*
-    private Optional<AppointmentByLocation> selectAppointmentByLocationForLocation(DoctorAppointment doctorAppointment, Location location) {
-        //Get the list of Appointment by Location in a doctor entry for a given location
-        List<AppointmentByLocation> appointmentsByLocations = doctorAppointment.getAppointmentsByLocation();
-        return appointmentsByLocations.stream().filter(appointmentByLocation -> appointmentByLocation.getLocationName().equals(location.getName()))
-                .findFirst();
-    }*/
 
     private DoctorAppointment createMockDoctorAppointment(String firstName, String lastName, List<AppointmentByLocation> appointmentByLocations){
         return new DoctorAppointment(firstName, lastName, appointmentByLocations);
@@ -60,10 +44,4 @@ class DoctorAppointmentDaoImplTest {
         return new MedicalService(name, price);
     }
 
-
-    /*
-               public ShortAppointment(@JsonProperty("appointmentId") String appointmentId,
-                            @JsonProperty("startDateTime") String startDateTime,
-                            @JsonProperty("duration") String duration,
-                            @JsonProperty("service") MedicalService service) {*/
 }

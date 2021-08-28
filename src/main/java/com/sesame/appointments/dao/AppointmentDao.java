@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface AppointmentDao {
     Appointment createAppointment(Appointment appointment);
-    List<Appointment> getAllAppointments();
+    List<Appointment> getValidAppointments();
+    List<Appointment> getInvalidAppointments();
+
 }

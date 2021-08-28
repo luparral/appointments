@@ -22,7 +22,7 @@ public class AppointmentErrorController {
 
     @GetMapping
     public List<AppointmentError> getAll() {
-        return this.appointmentErrorService.getAllAppointmentErrors();
+        return this.appointmentErrorService.getAppointmentErrors();
     }
 
 }

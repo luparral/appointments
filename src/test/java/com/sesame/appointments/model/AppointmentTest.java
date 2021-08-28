@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AppointmentTest {
 
     private final Doctor doctor = new Doctor("Bruce", "Wayne");
-    private final int duration = 10;
+    private final Integer duration = 10;
     private final String time = "2021-08-27 11:09:00";
     private final MedicalService service = new MedicalService("Physiotherapy consultation", 50);
     private final Location location = new Location("Gotham", "America/Somewhere");

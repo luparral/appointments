@@ -1,10 +1,20 @@
 package com.sesame.appointments.dao;
 
 import com.sesame.appointments.model.Appointment;
+import com.sesame.appointments.model.Doctor;
 import com.sesame.appointments.model.DoctorAppointment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DoctorAppointmentDao {
-    List<DoctorAppointment> getAllDoctorAppointments(List<Appointment> appointments);
+    List<DoctorAppointment> getDoctorAppointments(List<Optional<DoctorAppointment>> doctorAppointments);
+
+    Optional<DoctorAppointment> selectDoctorAppointmentsForDoctor(Doctor doctor);
+
+    DoctorAppointment createDoctorAppointment(Appointment appointment);
+
+    void addDoctorAppointment(DoctorAppointment doctorAppointment);
+
+    Optional<DoctorAppointment> updateDoctorAppointmentWithAppointment(DoctorAppointment doctorAppointmentToUpdate, Appointment appointment);
 }

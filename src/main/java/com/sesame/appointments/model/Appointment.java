@@ -9,14 +9,14 @@ import static com.sesame.appointments.util.ConstantUtil.*;
 
 public class Appointment {
     private final Doctor doctor;
-    private final int durationInMinutes;
+    private final Integer durationInMinutes;
     private final String time;
     private final MedicalService service;
     private final Location location;
     private final String id;
 
     public Appointment(@JsonProperty("doctor") Doctor doctor,
-                       @JsonProperty("durationInMinutes") int durationInMinutes,
+                       @JsonProperty("durationInMinutes") Integer durationInMinutes,
                        @JsonProperty("time") String time,
                        @JsonProperty("service") MedicalService service,
                        @JsonProperty("location") Location location,
@@ -33,7 +33,7 @@ public class Appointment {
         return doctor;
     }
 
-    public int getDurationInMinutes() {
+    public Integer getDurationInMinutes() {
         return durationInMinutes;
     }
 

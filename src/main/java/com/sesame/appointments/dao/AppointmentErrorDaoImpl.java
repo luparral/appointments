@@ -4,7 +4,6 @@ import com.sesame.appointments.model.Appointment;
 import com.sesame.appointments.model.AppointmentError;
 import org.springframework.stereotype.Repository;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ public class AppointmentErrorDaoImpl implements AppointmentErrorDao {
     private static HashMap<String, List<String>> DB = new HashMap<>();
 
     @Override
-    public List<AppointmentError> getAllAppointmentErrors() {
+    public List<AppointmentError> getAppointmentErrors() {
         List<AppointmentError> result = new ArrayList<>();
         DB.entrySet().stream().forEach(entry -> {
             AppointmentError error = new AppointmentError(entry.getKey(), entry.getValue());
@@ -25,7 +24,7 @@ public class AppointmentErrorDaoImpl implements AppointmentErrorDao {
     }
 
     @Override
-    public void addInvalidAppointment(Appointment appointment) {
+    public void addAppointmentError(Appointment appointment) {
         List<String> errorCodes = appointment.getErrors();
         errorCodes.forEach(error -> {
             List<String> ids;
@@ -34,8 +33,10 @@ public class AppointmentErrorDaoImpl implements AppointmentErrorDao {
             } else {
                ids = new ArrayList<>();
             }
-            ids.add(appointment.getId());
-            DB.put(error, ids);
+            if (!ids.contains(appointment.getId())){
+                ids.add(appointment.getId());
+                DB.put(error, ids);
+            }
         });
     }
 

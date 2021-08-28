@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AppointmentErrorDao {
 
-    List<AppointmentError> getAllAppointmentErrors();
+    List<AppointmentError> getAppointmentErrors();
 
-    void addInvalidAppointment(Appointment appointment);
+    void addAppointmentError(Appointment appointment);
 }
