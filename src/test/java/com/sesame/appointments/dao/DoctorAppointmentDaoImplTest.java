@@ -9,10 +9,10 @@ import java.util.List;
 
 class DoctorAppointmentDaoImplTest {
 
-    private final AppointmentDao appointmentDao = new AppointmentDaoImpl();
+   /* private final AppointmentDao appointmentDao = new AppointmentDaoImpl();
     private final AppointmentErrorDao appointmentErrorDao = new AppointmentErrorDaoImpl();
     private final AppointmentErrorService appointmentErrorService = new AppointmentErrorService(appointmentErrorDao);
-    public final AppointmentsService appointmentsService = new AppointmentsService(appointmentDao, appointmentErrorService);
+    public final AppointmentsService appointmentsService = new AppointmentsService(appointmentDao, appointmentErrorService, restService);
 
     MedicalService service1 = createMockService("Psychiatry", 50);
     MedicalService service2 = createMockService("Cardiology", 45);
@@ -43,5 +43,5 @@ class DoctorAppointmentDaoImplTest {
     private MedicalService createMockService(String name, int price){
         return new MedicalService(name, price);
     }
-
+*/
 }
