@@ -11,14 +11,13 @@ import java.util.stream.Collectors;
 @Repository("inMemoryDrAppDao")
 public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
     private static List<DoctorAppointment> DB = new ArrayList<>();
-    private static AppointmentErrorService invalidAppointmentService;
 
     @Override
     public List<DoctorAppointment> getAllDoctorAppointments(List<Appointment> appointments) {
         return appointments.stream()
-                .map(appointment -> processAppointment(appointment))
-                .filter(a -> a.isPresent() )
-                .map(ap -> ap.get())
+                .map(this::processAppointment)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
@@ -40,16 +39,14 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
         if (!appointmentByLocationMaybe.isPresent()) {
             // if there is no entry for this location
             // create a new AppointmentByLocation Entry and add it to DoctorAppointment.
-            DoctorAppointment updatedDoctorAppointment = addNewAppointmentByLocationEntry(doctorAppointmentToUpdate, appointment.getLocation(), shortAppointmentNewEntry);
-            return updatedDoctorAppointment;
+            return addNewAppointmentByLocationEntry(doctorAppointmentToUpdate, appointment.getLocation(), shortAppointmentNewEntry);
         } else {
             // if there is already an entry for this location
             // add the ShortAppointment Entry to the list of appointments for this location
             // and update the DoctorAppointment with the updated list of AppointmentsByLocation
             AppointmentByLocation appointmentByLocationToUpdate = appointmentByLocationMaybe.get();
             AppointmentByLocation updatedAppointmentByLocationEntry = addNewShortAppointmentEntry(appointmentByLocationToUpdate, shortAppointmentNewEntry);
-            DoctorAppointment updatedDoctorAppointment = updateAnEntryInAppointmentsByLocation(doctorAppointmentToUpdate, appointmentByLocationToUpdate, updatedAppointmentByLocationEntry);
-            return updatedDoctorAppointment;
+            return updateAnEntryInAppointmentsByLocation(doctorAppointmentToUpdate, appointmentByLocationToUpdate, updatedAppointmentByLocationEntry);
         }
     }
 
@@ -80,7 +77,6 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
         return doctorAppointmentToUpdate;
     }
 
-
     private DoctorAppointment createDoctorAppointment(Appointment appointment) {
         // Create new entry for the DB if the Doctor doesn't exists
         String firstName = appointment.getDoctor().getFirstName();
@@ -100,9 +96,7 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
         List<ShortAppointment> appointments = new ArrayList<>();
         appointments.add(appointmentEntry);
 
-        AppointmentByLocation appointmentByLocation = new AppointmentByLocation(locationName, appointments);
-
-        return appointmentByLocation;
+        return new AppointmentByLocation(locationName, appointments);
     }
 
     private ShortAppointment createNewShortAppointmentEntry(Appointment appointment) {

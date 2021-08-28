@@ -12,9 +12,15 @@ public class AppointmentDaoImpl implements AppointmentDao{
     private static List<Appointment> DB = new ArrayList<>();
 
     @Override
-    public Appointment createAppointment(Appointment a) {
-        DB.add(new Appointment(a.getDoctor(), a.getDurationInMinutes(), a.getTime(), a.getService(), a.getLocation(), a.getId()));
-        return a;
+    public Appointment createAppointment(Appointment appointment) {
+        DB.add(new Appointment(
+                appointment.getDoctor(),
+                appointment.getDurationInMinutes(),
+                appointment.getTime(),
+                appointment.getService(),
+                appointment.getLocation(),
+                appointment.getId()));
+        return appointment;
     }
 
     @Override
