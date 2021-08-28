@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DoctorAppointmentDao {
-    List<DoctorAppointment> getDoctorAppointments(List<Optional<DoctorAppointment>> doctorAppointments);
+    List<DoctorAppointment> getDoctorAppointments();
 
     Optional<DoctorAppointment> selectDoctorAppointmentsForDoctor(Doctor doctor);
 
@@ -16,5 +16,5 @@ public interface DoctorAppointmentDao {
 
     void addDoctorAppointment(DoctorAppointment doctorAppointment);
 
-    Optional<DoctorAppointment> updateDoctorAppointmentWithAppointment(DoctorAppointment doctorAppointmentToUpdate, Appointment appointment);
+    void updateDoctorAppointmentWithAppointment(DoctorAppointment doctorAppointmentToUpdate, Appointment appointment);
 }

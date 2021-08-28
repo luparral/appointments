@@ -11,32 +11,31 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
     private static List<DoctorAppointment> DB = new ArrayList<>();
 
     @Override
-
-    public List<DoctorAppointment> getDoctorAppointments(List<Optional<DoctorAppointment>> doctorAppointments) {
-        return doctorAppointments.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toList());
+    public List<DoctorAppointment> getDoctorAppointments() {
+        return DB.stream().collect(Collectors.toList());
     }
 
-    public Optional<DoctorAppointment> updateDoctorAppointmentWithAppointment(DoctorAppointment doctorAppointmentToUpdate, Appointment appointment) {
+    public void updateDoctorAppointmentWithAppointment(DoctorAppointment doctorAppointmentToUpdate, Appointment appointment) {
         ShortAppointment shortAppointmentNewEntry = createNewShortAppointmentEntry(appointment);
         Optional<AppointmentByLocation> appointmentByLocationMaybe = selectAppointmentByLocationForLocation(doctorAppointmentToUpdate, appointment.getLocation());
         if (!appointmentByLocationMaybe.isPresent()) {
             // if there is no entry for this location
             // create a new AppointmentByLocation Entry and add it to DoctorAppointment.
-            return Optional.of(addNewAppointmentByLocationEntry(doctorAppointmentToUpdate, appointment.getLocation(), shortAppointmentNewEntry));
+            addNewAppointmentByLocationEntry(doctorAppointmentToUpdate, appointment.getLocation(), shortAppointmentNewEntry);
         } else {
             // if there is already an entry for this location
             // add the ShortAppointment Entry to the list of appointments for this location
             // and update the DoctorAppointment with the updated list of AppointmentsByLocation
             AppointmentByLocation appointmentByLocationToUpdate = appointmentByLocationMaybe.get();
             Optional<AppointmentByLocation> updatedAppointmentByLocationEntry = addNewShortAppointmentEntry(appointmentByLocationToUpdate, shortAppointmentNewEntry);
-            return updatedAppointmentByLocationEntry.map(appointmentByLocation -> updateAnEntryInAppointmentsByLocation(doctorAppointmentToUpdate, appointmentByLocationToUpdate, appointmentByLocation));
+            if(updatedAppointmentByLocationEntry.isPresent()){
+                updateAnEntryInAppointmentsByLocation(doctorAppointmentToUpdate, appointmentByLocationToUpdate, updatedAppointmentByLocationEntry.get());
+            }
         }
+        updateDoctorAppointment(doctorAppointmentToUpdate);
     }
 
-    private DoctorAppointment updateAnEntryInAppointmentsByLocation(DoctorAppointment doctorAppointmentToUpdate, AppointmentByLocation appointmentByLocationToUpdate, AppointmentByLocation updatedAppointmentByLocationEntry){
+    private void updateAnEntryInAppointmentsByLocation(DoctorAppointment doctorAppointmentToUpdate, AppointmentByLocation appointmentByLocationToUpdate, AppointmentByLocation updatedAppointmentByLocationEntry){
         List<AppointmentByLocation> doctorAppointmentsByLocation = doctorAppointmentToUpdate.getAppointmentsByLocation();
 
         int indexOfAppointmentByLocationToUpdate = doctorAppointmentsByLocation.indexOf(appointmentByLocationToUpdate);
@@ -44,7 +43,6 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
             doctorAppointmentsByLocation.set(indexOfAppointmentByLocationToUpdate, updatedAppointmentByLocationEntry);
         }
         doctorAppointmentToUpdate.setAppointmentsByLocation(doctorAppointmentsByLocation);
-        return doctorAppointmentToUpdate;
 
     }
 
@@ -64,12 +62,11 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
                 .findFirst();
     }
 
-    private DoctorAppointment addNewAppointmentByLocationEntry(DoctorAppointment doctorAppointmentToUpdate, Location location, ShortAppointment shortAppointmentNewEntry) {
+    private void addNewAppointmentByLocationEntry(DoctorAppointment doctorAppointmentToUpdate, Location location, ShortAppointment shortAppointmentNewEntry) {
         AppointmentByLocation entry = createNewLocationEntry(location, shortAppointmentNewEntry);
         List<AppointmentByLocation> appointmentsByLocation = doctorAppointmentToUpdate.getAppointmentsByLocation();
         appointmentsByLocation.add(entry);
         doctorAppointmentToUpdate.setAppointmentsByLocation(appointmentsByLocation);
-        return doctorAppointmentToUpdate;
     }
 
     public DoctorAppointment createDoctorAppointment(Appointment appointment) {
@@ -119,5 +116,12 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
         List<AppointmentByLocation> appointmentsByLocations = doctorAppointment.getAppointmentsByLocation();
         return appointmentsByLocations.stream().filter(appointmentByLocation -> appointmentByLocation.getLocationName().equals(location.getName()))
                 .findFirst();
+    }
+
+    private void updateDoctorAppointment(DoctorAppointment doctorAppointment){
+        int indexOfDoctorAppointmentToUpdate = DB.indexOf(doctorAppointment);
+        if (indexOfDoctorAppointmentToUpdate >= 0) {
+            DB.set(indexOfDoctorAppointmentToUpdate, doctorAppointment);
+        }
     }
 }
