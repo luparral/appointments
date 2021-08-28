@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class AppointmentErrorService {
 
-    private AppointmentErrorDao appointmentErrorDao;
+    private final AppointmentErrorDao appointmentErrorDao;
 
     @Autowired
     public AppointmentErrorService(@Qualifier("inMemoryAppointmentErrorDao") AppointmentErrorDao appointmentErrorDao) {

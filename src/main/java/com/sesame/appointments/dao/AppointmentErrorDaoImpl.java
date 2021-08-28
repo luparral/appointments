@@ -16,7 +16,7 @@ public class AppointmentErrorDaoImpl implements AppointmentErrorDao {
     @Override
     public List<AppointmentError> getAppointmentErrors() {
         List<AppointmentError> result = new ArrayList<>();
-        DB.entrySet().stream().forEach(entry -> {
+        DB.entrySet().forEach(entry -> {
             AppointmentError error = new AppointmentError(entry.getKey(), entry.getValue());
             result.add(error);
         });

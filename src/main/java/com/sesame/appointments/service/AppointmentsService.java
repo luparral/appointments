@@ -6,7 +6,6 @@ import com.sesame.appointments.model.Appointment;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -29,24 +28,18 @@ public class AppointmentsService {
     }
 
     public List<Appointment> getValidAppointments() { return appointmentDao.getValidAppointments();}
-    public List<Appointment> getInvalidAppointments() {return appointmentDao.getInvalidAppointments();}
-
 
     public void loadAllFromFile() {
         JSONParser parser = new JSONParser();
         try {
             Object obj  = parser.parse(new FileReader("./data.json"));
             JSONArray jsonArray = (JSONArray) obj;
-            for (int i = 0; i <jsonArray.size(); i++) {
-                JSONObject jsonAppointment = (JSONObject)jsonArray.get(i);
+            for (Object o : jsonArray) {
+                JSONObject jsonAppointment = (JSONObject) o;
                 createAppointment(jsonAppointment);
             }
             System.out.println("Finished loading all appointments.");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }

@@ -32,11 +32,7 @@ public class DoctorAppointmentDaoImpl implements DoctorAppointmentDao {
             // and update the DoctorAppointment with the updated list of AppointmentsByLocation
             AppointmentByLocation appointmentByLocationToUpdate = appointmentByLocationMaybe.get();
             Optional<AppointmentByLocation> updatedAppointmentByLocationEntry = addNewShortAppointmentEntry(appointmentByLocationToUpdate, shortAppointmentNewEntry);
-            if(updatedAppointmentByLocationEntry.isPresent()){
-                return Optional.of(updateAnEntryInAppointmentsByLocation(doctorAppointmentToUpdate, appointmentByLocationToUpdate, updatedAppointmentByLocationEntry.get()));
-            } else {
-                return Optional.empty();
-            }
+            return updatedAppointmentByLocationEntry.map(appointmentByLocation -> updateAnEntryInAppointmentsByLocation(doctorAppointmentToUpdate, appointmentByLocationToUpdate, appointmentByLocation));
         }
     }
 

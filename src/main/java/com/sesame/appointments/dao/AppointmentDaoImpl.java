@@ -9,8 +9,8 @@ import java.util.List;
 @Repository("inMemoryDao")
 public class AppointmentDaoImpl implements AppointmentDao{
 
-    private static List<Appointment> DBValidAppointments = new ArrayList<>();
-    private static List<Appointment> DBInvalidAppointments = new ArrayList<>();
+    private static final List<Appointment> DBValidAppointments = new ArrayList<>();
+    private static final List<Appointment> DBInvalidAppointments = new ArrayList<>();
 
     @Override
     public Appointment createAppointment(Appointment appointment) {
@@ -27,11 +27,6 @@ public class AppointmentDaoImpl implements AppointmentDao{
     @Override
     public List<Appointment> getValidAppointments() {
         return DBValidAppointments;
-    }
-
-    @Override
-    public List<Appointment> getInvalidAppointments() {
-        return DBInvalidAppointments;
     }
 
 }
