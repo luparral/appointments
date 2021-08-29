@@ -161,4 +161,5 @@ Here is some stuff that would be nice to fix or add.
 - `startDateTime` should be ISO Date, and it should take into account the timeZoneCode.
 - `duration` should be an ISO Duration. Maybe there is some library to transform from minutes to this format.
 - Take a closer look to error handling, exception throwing and catching, and also logging.
+- **Add more tests!** Some hints of what tests are needed and what they need to do are left in the test files as ToDos.
 
