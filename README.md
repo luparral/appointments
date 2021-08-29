@@ -130,8 +130,7 @@ The possible types of errors are:
 
 The Following diagram roughly illustrates how the API works.
 
-![APFlow](https://user-images.githubusercontent.com/8027371/131234481-139ccf94-8c5c-4f52-beb0-d6ac1c87500b.png)
-
+![APFlow](https://user-images.githubusercontent.com/8027371/131265294-6e10a787-6397-4671-a381-bf8b6cf1276d.png)
 
 Basically, when the `GET localhost:8080/api/v1/doctor/appointments` endpoint is called, the HTTP GET Request to https://us-central1-sesame-care-dev.cloudfunctions.net/sesame_programming_test_api is performed. 
 
@@ -143,7 +142,7 @@ Once all the `Appointment`s are created, the `APIResponse` will be created by ca
 
 To get a better idea of this classes, you can take a look at this other diagram
 
-![Classes](https://user-images.githubusercontent.com/8027371/131234575-642cb362-9868-43d6-943f-9d857f14ea31.png)
+![Classes](https://user-images.githubusercontent.com/8027371/131265300-1beeb090-f9c5-4cca-82a5-fabebeadd232.png)
 
 The only thing left to mention is the algorithm that transform the `Appointment` into a `DoctorAppointment`. Let's do it 🚀 
 
