@@ -118,12 +118,12 @@ Reads the data from https://us-central1-sesame-care-dev.cloudfunctions.net/sesam
 
 The possible types of errors are:
 
-- invalid_doctor
-- invalid_duration_in_minutes
-- invalid_service
-- invalid_location
-- invalid_id
-- invalid_time
+- invalid_doctor: the doctor first or last name are null.
+- invalid_duration_in_minutes: the duration in minutes is 0
+- invalid_service: the service price is 0 or the service name is null
+- invalid_location: the location name or timeZoneCode are null
+- invalid_id: the id is null
+- invalid_time: the time is null
 
 
 ### API Components
