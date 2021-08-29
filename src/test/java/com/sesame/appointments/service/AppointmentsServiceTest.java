@@ -1,56 +1,69 @@
 package com.sesame.appointments.service;
-
 import com.sesame.appointments.dao.AppointmentDao;
-import com.sesame.appointments.dao.AppointmentDaoImpl;
 import com.sesame.appointments.model.Appointment;
 import com.sesame.appointments.model.Doctor;
 import com.sesame.appointments.model.Location;
 import com.sesame.appointments.model.MedicalService;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.sesame.appointments.util.MockGenerator;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class AppointmentsServiceTest {
 
-  /*  private final AppointmentDao appointmentDao = new AppointmentDaoImpl();
-    public final AppointmentsService appointmentsService = new AppointmentsService(appointmentDao);
+
+    @Mock AppointmentDao appointmentDao = Mockito.mock(AppointmentDao.class);
+    @Mock AppointmentErrorService appointmentErrorService = Mockito.mock(AppointmentErrorService.class);
+    @Mock RestService restService = Mockito.mock(RestService.class); ;
+    MockGenerator mockGenerator = new MockGenerator();
+
+
+    private final AppointmentsService appointmentsService = new AppointmentsService(appointmentDao, appointmentErrorService, restService);
+
+    private MedicalService validService = mockGenerator.createMockService("service", 10);
+    private Doctor validDoctor = mockGenerator.createMockDoctor("Bruce", "Wayne");
+    private Location validLocation = mockGenerator.createMockLocation("Gotham", "America/Somewhere");
+    private Appointment validAppointment = mockGenerator.createMockAppointment(validDoctor, 20, "2021-08-29 03:53:00", validService, validLocation, "1234");
+
+    private MedicalService invalidService = mockGenerator.createMockService("service", 10);
+    private Doctor invalidDoctor = mockGenerator.createMockDoctor("Bruce", "Wayne");
+    private Appointment invalidAppointment = mockGenerator.createMockAppointment(invalidDoctor, 20, "2021-08-29 03:53:00", invalidService, null, "1234");
+
+    private Appointment otherInvalidAppointment = mockGenerator.createMockAppointment(null, 20, "2021-08-29 03:53:00", null, null, "1234");
 
     @Test
-    void testParseJsonAppointment() throws IOException, ParseException {
-        JSONParser parser = new JSONParser();
-        Object obj  = parser.parse(new FileReader("./data_test.json"));
-        JSONArray jsonArray = (JSONArray) obj;
-        JSONObject e = (JSONObject)jsonArray.get(0);
-        Appointment parsedAppointment = appointmentsService.createAppointment(e);
+    void createAppointments() {
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(validAppointment);
+        appointments.add(invalidAppointment);
+        appointments.add(otherInvalidAppointment);
 
-        Doctor doctor = new Doctor("Bruce", "Wayne");
-        int duration = 10;
-        String time = "2021-08-27 11:09:00";
-        MedicalService service = new MedicalService("Physiotherapy consultation", 50);
-        Location location = new Location("Gotham", "America/Somewhere");
-        String id = "72842fe1-3e6b-4139-b7d6-319e4efeb8cf";
-
-        Appointment appointment = new Appointment(doctor, duration, time, service, location, id);
-
-        assertEquals(appointment.getDoctor().getFirstName(), parsedAppointment.getDoctor().getFirstName());
-        assertEquals(appointment.getDoctor().getLastName(), parsedAppointment.getDoctor().getLastName());
-        assertEquals(appointment.getDurationInMinutes(), parsedAppointment.getDurationInMinutes());
-        assertEquals(appointment.getTime(), parsedAppointment.getTime());
-        assertEquals(appointment.getService().getName(), parsedAppointment.getService().getName());
-        assertEquals(appointment.getService().getPrice(), parsedAppointment.getService().getPrice());
-        assertEquals(appointment.getLocation().getName(), parsedAppointment.getLocation().getName());
-        assertEquals(appointment.getLocation().getTimeZoneCode(), parsedAppointment.getLocation().getTimeZoneCode());
-        assertEquals(appointment.getId(), parsedAppointment.getId());
-
+        appointmentsService.createAppointments(appointments);
+        verify(appointmentErrorService, times(1)).addAppointmentError(invalidAppointment);
+        verify(appointmentErrorService, times(1)).addAppointmentError(otherInvalidAppointment);
+        verify(appointmentDao, times(0)).createAppointment(invalidAppointment);
     }
-*/
 
 
+    @Test
+    void getValidAppointments() {
+        // TODO: implement test
+        //  GIVEN an in Memory DB populates with Appointments.
+        //  WHEN getValidAppointments is called
+        //  THEN the Appointments in the DB are returned.
+    }
+
+    @Test
+    void loadAppointmentsFromRestService() {
+        // TODO: implement test
+        //  GIVEN a mocked RestService that returns a JSON with N Appointments
+        //        and a mocked ObjectMapped that returns an object of type List<Appointment> when readValue is called with a String object.
+        //  WHEN loadAppointmentsFromRestService is called
+        //  THEN the method createAppointments is called exactly 1 time with an object of type List<Appointment>.
+    }
 }

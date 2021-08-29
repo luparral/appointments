@@ -22,11 +22,11 @@ public class DoctorAppointmentsService {
 
     public List<DoctorAppointment> getDoctorAppointments() {
         List<Appointment> appointments = appointmentsService.getValidAppointments();
-        processAppointment(appointments);
+        processAppointments(appointments);
         return doctorAppointmentDao.getDoctorAppointments();
     }
 
-    private void processAppointment(List<Appointment> appointments) {
+    public void processAppointments(List<Appointment> appointments) {
         appointments.forEach(appointment -> {
             Optional<DoctorAppointment> doctorAppointmentMaybe = doctorAppointmentDao.selectDoctorAppointmentsForDoctor(appointment.getDoctor());
             if (!doctorAppointmentMaybe.isPresent()) {

@@ -1,47 +1,56 @@
 package com.sesame.appointments.dao;
 
-import com.sesame.appointments.model.*;
-import com.sesame.appointments.service.AppointmentErrorService;
-import com.sesame.appointments.service.AppointmentsService;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-
 
 class DoctorAppointmentDaoImplTest {
 
-   /* private final AppointmentDao appointmentDao = new AppointmentDaoImpl();
-    private final AppointmentErrorDao appointmentErrorDao = new AppointmentErrorDaoImpl();
-    private final AppointmentErrorService appointmentErrorService = new AppointmentErrorService(appointmentErrorDao);
-    public final AppointmentsService appointmentsService = new AppointmentsService(appointmentDao, appointmentErrorService, restService);
-
-    MedicalService service1 = createMockService("Psychiatry", 50);
-    MedicalService service2 = createMockService("Cardiology", 45);
-    ShortAppointment shortAppointment1 =  createMockShortAppointment("1234", "2021-08-25 11:06:00", "PT10M", service1);
-    ShortAppointment shortAppointment2 = createMockShortAppointment("1235", "2021-08-26 11:06:00", "PT30M", service2);
-
-    ShortAppointment shortAppointment3 =  createMockShortAppointment("1236", "2021-08-25 16:06:00", "PT10M", service1);
-    ShortAppointment shortAppointment4 = createMockShortAppointment("1237", "2021-08-26 16:06:00", "PT30M", service2);
-
+    @Test
+    void getDoctorAppointments() {
+        // TODO: implement test
+        //  GIVEN a in Memory DB with Doctor Appointments
+        //  WHEN getDoctorAppointments is called
+        //  THEN all the Doctor Appointments in the DB are returned.
+    }
 
     @Test
-    void testSelectAppointmentByLocationForLocation() {
-//
+    void updateDoctorAppointmentWithAppointment() {
+        // TODO: implement test
+        //  GIVEN a in Memory DB with Doctor Appointments
+        //  WHEN getDoctorAppointments is called
+        //  THEN all the Doctor Appointments in the DB are returned.
     }
 
-    private DoctorAppointment createMockDoctorAppointment(String firstName, String lastName, List<AppointmentByLocation> appointmentByLocations){
-        return new DoctorAppointment(firstName, lastName, appointmentByLocations);
+    @Test
+    void createDoctorAppointment() {
+        // TODO: implement test
+        //  GIVEN an Appointment
+        //  WHEN createDoctorAppointment is called
+        //  THEN a new Doctor Appointment is created with the information provided in the Appointment
+        //       this Doctor Appointment has only 1 Appointment by Location entry with the Location of the Appointment
+        //                               the Appointment by Location has only 1 ShortAppointment with the appointment id of the Appointment
     }
 
-    private AppointmentByLocation createMockAppointmentByLocation(String locationName, List<ShortAppointment> appointments){
-        return new AppointmentByLocation(locationName, appointments);
+    @Test
+    void addDoctorAppointment() {
+        // TODO: implement test
+        //  GIVEN a Doctor Appointment and an in Memory DB
+        //  WHEN addDoctorAppointment is called
+        //  THEN the Doctor Appointment is added to the DB
+
     }
 
-    private ShortAppointment createMockShortAppointment(String id, String startDateTime, String duration, MedicalService service){
-        return new ShortAppointment(id, startDateTime, duration, service);
+    @Test
+    void selectDoctorAppointmentsForDoctor() {
+        // TODO: implement test
+        //  GIVEN a Doctor and an in Memory DB with a Doctor Appointment entry that has same firstName and lastName as the Doctor.
+        //  WHEN selectDoctorAppointmentsForDoctor is called
+        //  THEN an Optional with this Doctor Appointment is returned
+
+        // TODO: implement test
+        //  GIVEN a Doctor and an in Memory DB with a Doctor Appointment entry that has different firstName and lastName as the Doctor.
+        //  WHEN selectDoctorAppointmentsForDoctor is called
+        //  THEN an empty Optional is returned.
+
     }
 
-    private MedicalService createMockService(String name, int price){
-        return new MedicalService(name, price);
-    }
-*/
 }
