@@ -34,12 +34,12 @@ public class AppointmentsService {
 
     public List<Appointment> getValidAppointments() { return appointmentDao.getValidAppointments();}
 
-    public void loadAllFromRestService() {
+    public void loadAppointmentsFromRestService() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String response  = restService.getAppointmentsPlainJSON();
-            List<Appointment> appointmentList = objectMapper.readValue(response, new TypeReference<List<Appointment>>(){});
-            createAppointments(appointmentList);
+            List<Appointment> appointments = objectMapper.readValue(response, new TypeReference<List<Appointment>>(){});
+            createAppointments(appointments);
         } catch (IOException e) {
             e.printStackTrace();
         }

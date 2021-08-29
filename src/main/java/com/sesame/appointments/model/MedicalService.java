@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MedicalService {
     private final String name;
-    private final int price;
+    private final Integer price;
 
     public MedicalService(@JsonProperty("name") String name,
-                          @JsonProperty("price") int price) {
+                          @JsonProperty("price") Integer price) {
         this.name = name;
         this.price = price;
     }
@@ -16,7 +16,7 @@ public class MedicalService {
         return name;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 

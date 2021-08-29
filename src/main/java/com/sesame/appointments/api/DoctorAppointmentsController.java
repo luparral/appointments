@@ -29,9 +29,9 @@ public class DoctorAppointmentsController {
 
     @GetMapping
     public APIResponse getAll() {
-        appointmentsService.loadAllFromRestService(); // load all appointments in original format
-        List <AppointmentError> appointmentErrors = this.appointmentErrorService.getAppointmentErrors(); // get the appointment errors that were stored in DB after loading and parsing the input.
-        List<DoctorAppointment> doctorAppointments = this.doctorAppointmentsService.getDoctorAppointments(); // Only took care of process valid appointments. It will ask for valid appointments to appointmentService
+        appointmentsService.loadAppointmentsFromRestService();
+        List <AppointmentError> appointmentErrors = this.appointmentErrorService.getAppointmentErrors();
+        List<DoctorAppointment> doctorAppointments = this.doctorAppointmentsService.getDoctorAppointments();
         return new APIResponse(doctorAppointments, appointmentErrors);
     }
 }

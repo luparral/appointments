@@ -10,7 +10,6 @@ import java.util.List;
 public class AppointmentDaoImpl implements AppointmentDao{
 
     private static final List<Appointment> DBValidAppointments = new ArrayList<>();
-    private static final List<Appointment> DBInvalidAppointments = new ArrayList<>();
 
     @Override
     public Appointment createAppointment(Appointment appointment) {
