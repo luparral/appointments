@@ -1,5 +1,5 @@
 # Doctor Appointments API
-API that cleans up and restructures Doctor's appointments data.
+This is a simple API that can be used to pre-process and organise medical appointments from the Sesame programming test API.
 
 
 ### Request
@@ -125,6 +125,9 @@ The possible types of errors are:
 - invalid_id
 - invalid_time
 
+
+### API Components
+
 The Following diagram roughly illustrates how the API works.
 
 ![APFlow](https://user-images.githubusercontent.com/8027371/131234481-139ccf94-8c5c-4f52-beb0-d6ac1c87500b.png)
@@ -132,20 +135,19 @@ The Following diagram roughly illustrates how the API works.
 
 Basically, when the `GET localhost:8080/api/v1/doctor/appointments` endpoint is called, the HTTP GET Request to https://us-central1-sesame-care-dev.cloudfunctions.net/sesame_programming_test_api is performed. 
 
-The **AppointmentsService** then read and parse the JSON data and create a list of `Appointment` objects that are stored in memory. 
+The **AppointmentsService** then reads and parses the JSON data and creates a list of `Appointment` objects that are stored in memory. 
 
-At the same time, the non-valid `Appointments` (the ones that have any missing field) are sned to the **AppointmentErrorService** to create an `AppointmentError` for this appointment.
+At the same time, the non-valid `Appointments` (the ones that have any missing field) are sent to the **AppointmentErrorService** to create an `AppointmentError` for this appointment.
 
-Once the Appointments are all created, the Response will be created by calling both the **AppointmentErrorService** to get all the `AppointmentErrors` and the 
-**DoctorAppointmentsService** to obtain all the `DoctorAppointments`. 
+Once all the `Appointment`s are created, the `APIResponse` will be created by calling both the **AppointmentErrorService** to get all the `AppointmentErrors` and the **DoctorAppointmentsService** to obtain all the `DoctorAppointments`. 
 
 To get a better idea of this classes, you can take a look at this other diagram
 
 ![Classes](https://user-images.githubusercontent.com/8027371/131234575-642cb362-9868-43d6-943f-9d857f14ea31.png)
 
-The only thing left to mention is the algorithm that transform the `Appointment` in a `DoctorAppointment`. Let's do it 🚀 
+The only thing left to mention is the algorithm that transform the `Appointment` into a `DoctorAppointment`. Let's do it 🚀 
 
-For each `Appointment`, we check if we already have an `DoctorAppointment` entry for the Doctor of this `Appointment`.
+For each `Appointment`, we check if we already have a `DoctorAppointment` entry for the `Doctor` of this `Appointment`.
 
 If we don't, then everything is great and we just have to create an new `DoctorAppointment` entry for this `Appointment`.
 
@@ -158,5 +160,5 @@ Here is some stuff that would be nice to fix or add.
 
 - `startDateTime` should be ISO Date, and it should take into account the timeZoneCode.
 - `duration` should be an ISO Duration. Maybe there is some library to transform from minutes to this format.
-- Take a closer look to error handling, exception throwing and catching and also logging.
+- Take a closer look to error handling, exception throwing and catching, and also logging.
 
