@@ -125,6 +125,16 @@ The possible types of errors are:
 - invalid_id: the id is null
 - invalid_time: the time is null
 
+### Build instructions
+
+Java version `11.0.12`
+
+Run the app: `./mvnw spring-boot:run`
+
+Alternatively, you can build the JAR file with `./mvnw clean package` and then run the JAR file, as follows:
+
+`java -jar target/appointments-0.0.1-SNAPSHOT.jar`
+
 
 ### API Components
 
